@@ -53,7 +53,6 @@ export const ProductsProvider = ({ children }) => {
     try {
       const res = await axios.get(url);
       const singleProduct = res.data;
-      console.log(singleProduct);
       dispatch({type: GET_SINGLE_PRODUCT_SUCCESS, payload: singleProduct});
     } catch (error) {
       dispatch({type: GET_SINGLE_PRODUCT_ERROR});
