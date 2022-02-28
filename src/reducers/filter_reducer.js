@@ -12,7 +12,9 @@ import {
 const filter_reducer = (state, action) => {
   switch(action.type) {
     case LOAD_PRODUCTS:
-      return {...state, allProducts: [...action.payload], filteredProducts: [...action.payload]}
+      let maxPrice = action.payload.map((product) => product.price);
+      maxPrice = Math.max(...maxPrice);
+      return {...state, allProducts: [...action.payload], filteredProducts: [...action.payload], filters: {...state.filters, maxPrice, price: maxPrice}}
     
     case SET_GRIDVIEW:
       return {...state, gridView: true}
@@ -44,7 +46,11 @@ const filter_reducer = (state, action) => {
       }
 
       return {...state, filteredProducts: tempProducts}
-      
+    
+    case UPDATE_FILTERS:
+      let {name, value} = action.payload;
+      return {...state, filters: {...state.filters, [name]: value}}
+
     default:
       throw new Error(`No Matching "${action.type}" - action type`)
   }
