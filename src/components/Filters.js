@@ -49,36 +49,50 @@ const Filters = () => {
             </div>
           {/* end of companies */}
           {/* colors */}
-          <div className="form-control">
-            <h5>colors</h5>
-            <div className="colors">
-              {
-                colors.map((c, index) => {
-                  if(c === "all"){
+            <div className="form-control">
+              <h5>colors</h5>
+              <div className="colors">
+                {
+                  colors.map((c, index) => {
+                    if(c === "all"){
+                      return (
+                        <button key={index} name="color" onClick={updateFilters} data-color="all" className={`${color === 'all' ? 'all-btn active': 'all-btn'}`}> all </button>
+                      )
+                    }
                     return (
-                      <button key={index} name="color" onClick={updateFilters} data-color="all" className={`${color === 'all' ? 'all-btn active': 'all-btn'}`}> all </button>
+                      <button
+                        key={index}
+                        name='color'
+                        style={{ background: c }}
+                        className={`${
+                          color === c ? 'color-btn active' : 'color-btn'
+                        }`}
+                        data-color={c}
+                        onClick={updateFilters}
+                      >
+                        {color === c ? <FaCheck /> : null}
+                      </button>
                     )
-                  }
-                  return (
-                    <button
-                      key={index}
-                      name='color'
-                      style={{ background: c }}
-                      className={`${
-                        color === c ? 'color-btn active' : 'color-btn'
-                      }`}
-                      data-color={c}
-                      onClick={updateFilters}
-                    >
-                      {color === c ? <FaCheck /> : null}
-                    </button>
-                  )
-                })
-              }
+                  })
+                }
+              </div>
             </div>
-          </div>
           {/* end of colors */}
+          {/* price */}
+            <div className="form-control">
+              <h5>price</h5>
+              <p className="price">{formatPrice(price)}</p>
+              <input type="range" name="price" min={minPrice} max={maxPrice} value={price} onChange={updateFilters} />  
+            </div>
+          {/* end of price */}
+          {/* shipping */}
+            <div className="form-control shipping">
+              <label htmlFor="shipping">free shipping</label>
+              <input type="checkbox" name="shipping" id="shipping" checked={shipping} onChange={updateFilters} />
+            </div>
+          {/* end of shipping */}
         </form>
+        <button className="clear-btn" onClick={clearFilters}>clear filters</button>
       </div>
     </Wrapper>
   )

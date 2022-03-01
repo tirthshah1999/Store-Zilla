@@ -29,19 +29,20 @@ const initialState = {
   }
 }
 
-const FilterContext = React.createContext()
+const FilterContext = React.createContext();
 
 export const FilterProvider = ({ children }) => {
-  const { products } = useProductsContext()
+  const { products } = useProductsContext();
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
-    dispatch({ type: LOAD_PRODUCTS, payload: products })
+    dispatch({ type: LOAD_PRODUCTS, payload: products });
   }, [products])
 
   useEffect(() => {
-    dispatch({type: SORT_PRODUCTS})
-  }, [products, state.sort])
+    dispatch({ type: FILTER_PRODUCTS })
+    dispatch({type: SORT_PRODUCTS});
+  }, [state.sort, state.filters])
 
   const setGridView = () => {
     dispatch({type: SET_GRIDVIEW});
@@ -66,11 +67,20 @@ export const FilterProvider = ({ children }) => {
     if(name === "color"){
       value = e.target.dataset.color;
     }
+
+    if(name === "price"){
+      value = Number(value);
+    }
+
+    if(name === "shipping"){
+      value = e.target.checked;
+    }
+
     dispatch({type: UPDATE_FILTERS, payload: {name, value}});
   }
 
   const clearFilters = () => {
-
+    dispatch({type: CLEAR_FILTERS})
   }
 
   return (
